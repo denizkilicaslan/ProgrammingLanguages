@@ -27,28 +27,29 @@ public class InMemoryProgrammingLanguagesRepository implements ProgrammingLangua
     }
 
     @Override
-    public void delete(ProgrammingLanguage programmingLanguage) throws Exception {
-        if(getById(programmingLanguage) != null){
-            programmingLanguageList.remove(programmingLanguage);
+    public void delete(int id) throws Exception {
+        if (getById(id) != null) {
+            programmingLanguageList.remove(getById(id));
             System.out.println("deleted");
-        }
-        else{
+        } else {
             throw new Exception("no language found to delete");
         }
-
-
     }
 
     @Override
-    public void update(ProgrammingLanguage programmingLanguage) throws Exception {
-        if(getById(programmingLanguage) != null) {
-            programmingLanguage.setLanguage(programmingLanguage.getLanguage());
-            System.out.println("updated");
-        }
-        else{
-            throw  new Exception("language for id not found");
-        }
+    public void update(int id, ProgrammingLanguage programmingLanguage) throws Exception {
+        if (getById(id) != null) {
 
+            for (ProgrammingLanguage value : programmingLanguageList) {
+                if (value.getId() == id) {
+                    value.setName(programmingLanguage.getName());
+                    System.out.println("updated");
+                }
+            }
+
+        } else {
+            throw new Exception("language for id not found");
+        }
     }
 
     @Override
@@ -57,10 +58,10 @@ public class InMemoryProgrammingLanguagesRepository implements ProgrammingLangua
     }
 
     @Override
-    public ProgrammingLanguage getById(ProgrammingLanguage programmingLanguage) {
-        for (ProgrammingLanguage value : programmingLanguageList){
-            if(value.getId()== programmingLanguage.getId()){
-                return programmingLanguage;
+    public ProgrammingLanguage getById(int id) {
+        for (ProgrammingLanguage value : programmingLanguageList) {
+            if (value.getId() == id) {
+                return value;
             }
         }
         return null;
